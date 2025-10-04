@@ -1,12 +1,11 @@
 import NewPasswordController from '@/actions/App/Http/Controllers/Auth/NewPasswordController';
 import { Form, Head } from '@inertiajs/react';
 
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 
 interface ResetPasswordProps {
     token: string;
@@ -27,9 +26,9 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                 resetOnSuccess={['password', 'password_confirmation']}
             >
                 {({ processing, errors }) => (
-                    <div className="grid gap-6">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                    <FieldGroup className="gap-6">
+                        <Field>
+                            <FieldLabel htmlFor="email">Email</FieldLabel>
                             <Input
                                 id="email"
                                 type="email"
@@ -39,14 +38,11 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                                 className="mt-1 block w-full"
                                 readOnly
                             />
-                            <InputError
-                                message={errors.email}
-                                className="mt-2"
-                            />
-                        </div>
+                            <FieldError>{errors.email}</FieldError>
+                        </Field>
 
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
+                        <Field>
+                            <FieldLabel htmlFor="password">Password</FieldLabel>
                             <Input
                                 id="password"
                                 type="password"
@@ -56,13 +52,13 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                                 autoFocus
                                 placeholder="Password"
                             />
-                            <InputError message={errors.password} />
-                        </div>
+                            <FieldError>{errors.password}</FieldError>
+                        </Field>
 
-                        <div className="grid gap-2">
-                            <Label htmlFor="password_confirmation">
+                        <Field>
+                            <FieldLabel htmlFor="password_confirmation">
                                 Confirm password
-                            </Label>
+                            </FieldLabel>
                             <Input
                                 id="password_confirmation"
                                 type="password"
@@ -71,22 +67,23 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                                 className="mt-1 block w-full"
                                 placeholder="Confirm password"
                             />
-                            <InputError
-                                message={errors.password_confirmation}
-                                className="mt-2"
-                            />
-                        </div>
+                            <FieldError>
+                                {errors.password_confirmation}
+                            </FieldError>
+                        </Field>
 
-                        <Button
-                            type="submit"
-                            className="mt-4 w-full"
-                            disabled={processing}
-                            data-test="reset-password-button"
-                        >
-                            {processing && <Spinner />}
-                            Reset password
-                        </Button>
-                    </div>
+                        <Field>
+                            <Button
+                                type="submit"
+                                className="mt-4 w-full"
+                                disabled={processing}
+                                data-test="reset-password-button"
+                            >
+                                {processing && <Spinner />}
+                                Reset password
+                            </Button>
+                        </Field>
+                    </FieldGroup>
                 )}
             </Form>
         </AuthLayout>

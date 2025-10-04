@@ -2,13 +2,12 @@ import RegisteredUserController from '@/actions/App/Http/Controllers/Auth/Regist
 import { login } from '@/routes';
 import { Form, Head } from '@inertiajs/react';
 
-import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 
 export default function Register() {
     return (
@@ -25,9 +24,9 @@ export default function Register() {
             >
                 {({ processing, errors }) => (
                     <>
-                        <div className="grid gap-6">
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                        <FieldGroup className="gap-6">
+                            <Field>
+                                <FieldLabel htmlFor="name">Name</FieldLabel>
                                 <Input
                                     id="name"
                                     type="text"
@@ -38,14 +37,13 @@ export default function Register() {
                                     name="name"
                                     placeholder="Full name"
                                 />
-                                <InputError
-                                    message={errors.name}
-                                    className="mt-2"
-                                />
-                            </div>
+                                <FieldError>{errors.name}</FieldError>
+                            </Field>
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                            <Field>
+                                <FieldLabel htmlFor="email">
+                                    Email address
+                                </FieldLabel>
                                 <Input
                                     id="email"
                                     type="email"
@@ -55,11 +53,13 @@ export default function Register() {
                                     name="email"
                                     placeholder="email@example.com"
                                 />
-                                <InputError message={errors.email} />
-                            </div>
+                                <FieldError>{errors.email}</FieldError>
+                            </Field>
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="password">Password</Label>
+                            <Field>
+                                <FieldLabel htmlFor="password">
+                                    Password
+                                </FieldLabel>
                                 <Input
                                     id="password"
                                     type="password"
@@ -69,13 +69,13 @@ export default function Register() {
                                     name="password"
                                     placeholder="Password"
                                 />
-                                <InputError message={errors.password} />
-                            </div>
+                                <FieldError>{errors.password}</FieldError>
+                            </Field>
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="password_confirmation">
+                            <Field>
+                                <FieldLabel htmlFor="password_confirmation">
                                     Confirm password
-                                </Label>
+                                </FieldLabel>
                                 <Input
                                     id="password_confirmation"
                                     type="password"
@@ -85,21 +85,23 @@ export default function Register() {
                                     name="password_confirmation"
                                     placeholder="Confirm password"
                                 />
-                                <InputError
-                                    message={errors.password_confirmation}
-                                />
-                            </div>
+                                <FieldError>
+                                    {errors.password_confirmation}
+                                </FieldError>
+                            </Field>
 
-                            <Button
-                                type="submit"
-                                className="mt-2 w-full"
-                                tabIndex={5}
-                                data-test="register-user-button"
-                            >
-                                {processing && <Spinner />}
-                                Create account
-                            </Button>
-                        </div>
+                            <Field>
+                                <Button
+                                    type="submit"
+                                    className="mt-2 w-full"
+                                    tabIndex={5}
+                                    data-test="register-user-button"
+                                >
+                                    {processing && <Spinner />}
+                                    Create account
+                                </Button>
+                            </Field>
+                        </FieldGroup>
 
                         <div className="text-center text-sm text-muted-foreground">
                             Already have an account?{' '}

@@ -52,7 +52,6 @@ export default function Profile({
                         {({ processing, recentlySuccessful, errors }) => (
                             <>
                                 <FieldGroup>
-
                                     <FieldSet>
                                         <FieldLegend>
                                             Profile information
@@ -61,7 +60,6 @@ export default function Profile({
                                             Update your name and email address
                                         </FieldDescription>
                                     </FieldSet>
-
                                     <Field>
                                         <FieldLabel htmlFor="name">
                                             Name
@@ -77,23 +75,26 @@ export default function Profile({
                                         />
                                         <FieldError>{errors.name}</FieldError>
                                     </Field>
-
-                                    <Field>
-                                        <FieldLabel htmlFor="email">
-                                            Email address
-                                        </FieldLabel>
-                                        <Input
-                                            id="email"
-                                            type="email"
-                                            className="block w-full"
-                                            defaultValue={auth.user.email}
-                                            name="email"
-                                            required
-                                            autoComplete="username"
-                                            placeholder="Email address"
-                                        />
-                                        <FieldError>{errors.email}</FieldError>
-                                    </Field>
+                                    <FieldGroup>
+                                        <Field>
+                                            <FieldLabel htmlFor="email">
+                                                Email address
+                                            </FieldLabel>
+                                            <Input
+                                                id="email"
+                                                type="email"
+                                                className="block w-full"
+                                                defaultValue={auth.user.email}
+                                                name="email"
+                                                required
+                                                autoComplete="username"
+                                                placeholder="Email address"
+                                            />
+                                            <FieldError>
+                                                {errors.email}
+                                            </FieldError>
+                                        </Field>
+                                    </FieldGroup>
 
                                     {mustVerifyEmail &&
                                         auth.user.email_verified_at ===
@@ -123,7 +124,7 @@ export default function Profile({
                                             </div>
                                         )}
 
-                                    <Field orientation="horizontal">
+                                    <Field className="flex items-center gap-4">
                                         <Button
                                             disabled={processing}
                                             data-test="update-profile-button"

@@ -1,5 +1,4 @@
 import PasswordController from '@/actions/App/Http/Controllers/Settings/PasswordController';
-import InputError from '@/components/input-error';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { type BreadcrumbItem } from '@/types';
@@ -7,10 +6,17 @@ import { Transition } from '@headlessui/react';
 import { Form, Head } from '@inertiajs/react';
 import { useRef } from 'react';
 
-import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+    FieldLegend,
+    FieldSet,
+} from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/password';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -30,11 +36,6 @@ export default function Password() {
 
             <SettingsLayout>
                 <div className="space-y-6">
-                    <HeadingSmall
-                        title="Update password"
-                        description="Ensure your account is using a long, random password to stay secure"
-                    />
-
                     <Form
                         {...PasswordController.update.form()}
                         options={{
@@ -59,83 +60,95 @@ export default function Password() {
                     >
                         {({ errors, processing, recentlySuccessful }) => (
                             <>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="current_password">
-                                        Current password
-                                    </Label>
+                                <FieldGroup>
+                                    <FieldSet>
+                                        <FieldLegend>
+                                            Change your account password
+                                        </FieldLegend>
+                                        <FieldDescription>
+                                            Ensure your account is using a long,
+                                            random password to stay secure
+                                        </FieldDescription>
+                                    </FieldSet>
 
-                                    <Input
-                                        id="current_password"
-                                        ref={currentPasswordInput}
-                                        name="current_password"
-                                        type="password"
-                                        className="mt-1 block w-full"
-                                        autoComplete="current-password"
-                                        placeholder="Current password"
-                                    />
+                                    <Field>
+                                        <FieldLabel htmlFor="current_password">
+                                            Current password
+                                        </FieldLabel>
+                                        <Input
+                                            id="current_password"
+                                            ref={currentPasswordInput}
+                                            name="current_password"
+                                            type="password"
+                                            className="block w-full"
+                                            autoComplete="current-password"
+                                            placeholder="Current password"
+                                        />
+                                        <FieldError>
+                                            {errors.current_password}
+                                        </FieldError>
+                                    </Field>
 
-                                    <InputError
-                                        message={errors.current_password}
-                                    />
-                                </div>
+                                    <Field>
+                                        <FieldLabel htmlFor="password">
+                                            New password
+                                        </FieldLabel>
+                                        <Input
+                                            id="password"
+                                            ref={passwordInput}
+                                            name="password"
+                                            type="password"
+                                            className="block w-full"
+                                            autoComplete="new-password"
+                                            placeholder="New password"
+                                        />
+                                        <FieldError>
+                                            {errors.password}
+                                        </FieldError>
+                                    </Field>
 
-                                <div className="grid gap-2">
-                                    <Label htmlFor="password">
-                                        New password
-                                    </Label>
+                                    <Field>
+                                        <FieldLabel htmlFor="password_confirmation">
+                                            Confirm password
+                                        </FieldLabel>
+                                        <Input
+                                            id="password_confirmation"
+                                            name="password_confirmation"
+                                            type="password"
+                                            className="block w-full"
+                                            autoComplete="new-password"
+                                            placeholder="Confirm password"
+                                        />
+                                        <FieldError>
+                                            {errors.password_confirmation}
+                                        </FieldError>
+                                    </Field>
 
-                                    <Input
-                                        id="password"
-                                        ref={passwordInput}
-                                        name="password"
-                                        type="password"
-                                        className="mt-1 block w-full"
-                                        autoComplete="new-password"
-                                        placeholder="New password"
-                                    />
-
-                                    <InputError message={errors.password} />
-                                </div>
-
-                                <div className="grid gap-2">
-                                    <Label htmlFor="password_confirmation">
-                                        Confirm password
-                                    </Label>
-
-                                    <Input
-                                        id="password_confirmation"
-                                        name="password_confirmation"
-                                        type="password"
-                                        className="mt-1 block w-full"
-                                        autoComplete="new-password"
-                                        placeholder="Confirm password"
-                                    />
-
-                                    <InputError
-                                        message={errors.password_confirmation}
-                                    />
-                                </div>
-
-                                <div className="flex items-center gap-4">
-                                    <Button
-                                        disabled={processing}
-                                        data-test="update-password-button"
+                                    <Field
+                                        orientation="horizontal"
+                                        className="mt-2 flex items-center"
                                     >
-                                        Save password
-                                    </Button>
+                                        <Button
+                                            type="submit"
+                                            disabled={processing}
+                                            data-test="update-password-button"
+                                        >
+                                            Save password
+                                        </Button>
 
-                                    <Transition
-                                        show={recentlySuccessful}
-                                        enter="transition ease-in-out"
-                                        enterFrom="opacity-0"
-                                        leave="transition ease-in-out"
-                                        leaveTo="opacity-0"
-                                    >
-                                        <p className="text-sm text-neutral-600">
-                                            Saved
-                                        </p>
-                                    </Transition>
-                                </div>
+                                        <Transition
+                                            show={recentlySuccessful}
+                                            enter="transition ease-in-out"
+                                            enterFrom="opacity-0"
+                                            leave="transition ease-in-out"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <p className="ml-4 text-sm text-neutral-600">
+                                                Saved
+                                            </p>
+                                        </Transition>
+                                    </Field>
+                                </FieldGroup>
                             </>
                         )}
                     </Form>

@@ -1,4 +1,3 @@
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -8,10 +7,17 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import {
+    Field,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+} from '@/components/ui/field';
+import {
     InputOTP,
     InputOTPGroup,
     InputOTPSlot,
 } from '@/components/ui/input-otp';
+import { Spinner } from '@/components/ui/spinner';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
 import { confirm } from '@/routes/two-factor';
@@ -20,7 +26,6 @@ import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import { Check, Copy, ScanLine } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import AlertError from './alert-error';
-import { Spinner } from './ui/spinner';
 
 function GridScanIcon() {
     return (
@@ -151,6 +156,7 @@ function TwoFactorVerificationStep({
             onSuccess={() => onClose()}
             resetOnError
             resetOnSuccess
+            className="w-full"
         >
             {({
                 processing,
@@ -160,11 +166,17 @@ function TwoFactorVerificationStep({
                 errors?: { confirmTwoFactorAuthentication?: { code?: string } };
             }) => (
                 <>
-                    <div
-                        ref={pinInputContainerRef}
+                    <FieldGroup
+                        ref={pinInputContainerRef as any}
                         className="relative w-full space-y-3"
                     >
-                        <div className="flex w-full flex-col items-center space-y-3 py-2">
+                        <Field
+                            orientation="horizontal"
+                            className="flex w-full flex-col items-center space-y-3 py-2"
+                        >
+                            <FieldLabel htmlFor="otp" className="sr-only">
+                                Authentication code
+                            </FieldLabel>
                             <InputOTP
                                 id="otp"
                                 name="code"
@@ -185,14 +197,15 @@ function TwoFactorVerificationStep({
                                     )}
                                 </InputOTPGroup>
                             </InputOTP>
-                            <InputError
-                                message={
-                                    errors?.confirmTwoFactorAuthentication?.code
-                                }
-                            />
-                        </div>
+                            <FieldError className="w-full">
+                                {errors?.confirmTwoFactorAuthentication?.code}
+                            </FieldError>
+                        </Field>
 
-                        <div className="flex w-full space-x-5">
+                        <Field
+                            orientation="horizontal"
+                            className="flex w-full space-x-5"
+                        >
                             <Button
                                 type="button"
                                 variant="outline"
@@ -211,8 +224,8 @@ function TwoFactorVerificationStep({
                             >
                                 Confirm
                             </Button>
-                        </div>
-                    </div>
+                        </Field>
+                    </FieldGroup>
                 </>
             )}
         </Form>

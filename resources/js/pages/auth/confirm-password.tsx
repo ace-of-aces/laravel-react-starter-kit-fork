@@ -1,5 +1,10 @@
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import {
+    Field,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+} from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
@@ -17,22 +22,21 @@ export default function ConfirmPassword() {
 
             <Form {...store.form()} resetOnSuccess={['password']}>
                 {({ processing, errors }) => (
-                    <div className="space-y-6">
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
+                    <FieldGroup className="gap-6">
+                        <Field>
+                            <FieldLabel htmlFor="password">Password</FieldLabel>
                             <Input
                                 id="password"
-                                type="password"
                                 name="password"
+                                type="password"
                                 placeholder="Password"
                                 autoComplete="current-password"
                                 autoFocus
                             />
+                            <FieldError>{errors.password}</FieldError>
+                        </Field>
 
-                            <InputError message={errors.password} />
-                        </div>
-
-                        <div className="flex items-center">
+                        <Field>
                             <Button
                                 className="w-full"
                                 disabled={processing}
@@ -41,8 +45,8 @@ export default function ConfirmPassword() {
                                 {processing && <Spinner />}
                                 Confirm password
                             </Button>
-                        </div>
-                    </div>
+                        </Field>
+                    </FieldGroup>
                 )}
             </Form>
         </AuthLayout>

@@ -1,6 +1,5 @@
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import HeadingSmall from '@/components/heading-small';
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -12,9 +11,9 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Form } from '@inertiajs/react';
 import { useRef } from 'react';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 
 export default function DeleteUser() {
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -60,18 +59,16 @@ export default function DeleteUser() {
                             }}
                             onError={() => passwordInput.current?.focus()}
                             resetOnSuccess
-                            className="space-y-6"
                         >
                             {({ resetAndClearErrors, processing, errors }) => (
-                                <>
-                                    <div className="grid gap-2">
-                                        <Label
+                                <FieldGroup className="grid gap-2">
+                                    <Field>
+                                        <FieldLabel
                                             htmlFor="password"
                                             className="sr-only"
                                         >
                                             Password
-                                        </Label>
-
+                                        </FieldLabel>
                                         <Input
                                             id="password"
                                             type="password"
@@ -80,9 +77,10 @@ export default function DeleteUser() {
                                             placeholder="Password"
                                             autoComplete="current-password"
                                         />
-
-                                        <InputError message={errors.password} />
-                                    </div>
+                                        <FieldError>
+                                            {errors.password}
+                                        </FieldError>
+                                    </Field>
 
                                     <DialogFooter className="gap-2">
                                         <DialogClose asChild>
@@ -109,7 +107,7 @@ export default function DeleteUser() {
                                             </button>
                                         </Button>
                                     </DialogFooter>
-                                </>
+                                </FieldGroup>
                             )}
                         </Form>
                     </DialogContent>

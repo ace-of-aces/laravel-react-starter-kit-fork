@@ -1,5 +1,5 @@
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
     InputOTP,
@@ -60,22 +60,29 @@ export default function TwoFactorChallenge() {
                     resetOnSuccess={!showRecoveryInput}
                 >
                     {({ errors, processing, clearErrors }) => (
-                        <>
+                        <FieldGroup className="space-y-4">
                             {showRecoveryInput ? (
-                                <>
+                                <Field>
+                                    <FieldLabel
+                                        htmlFor="recovery_code"
+                                        className="sr-only"
+                                    >
+                                        Recovery code
+                                    </FieldLabel>
                                     <Input
+                                        id="recovery_code"
                                         name="recovery_code"
                                         type="text"
                                         placeholder="Enter recovery code"
                                         autoFocus={showRecoveryInput}
                                         required
                                     />
-                                    <InputError
-                                        message={errors.recovery_code}
-                                    />
-                                </>
+                                    <FieldError>
+                                        {errors.recovery_code}
+                                    </FieldError>
+                                </Field>
                             ) : (
-                                <div className="flex flex-col items-center justify-center space-y-3 text-center">
+                                <Field className="flex flex-col items-center justify-center space-y-3 text-center">
                                     <div className="flex w-full items-center justify-center">
                                         <InputOTP
                                             name="code"
@@ -98,17 +105,19 @@ export default function TwoFactorChallenge() {
                                             </InputOTPGroup>
                                         </InputOTP>
                                     </div>
-                                    <InputError message={errors.code} />
-                                </div>
+                                    <FieldError>{errors.code}</FieldError>
+                                </Field>
                             )}
 
-                            <Button
-                                type="submit"
-                                className="w-full"
-                                disabled={processing}
-                            >
-                                Continue
-                            </Button>
+                            <Field>
+                                <Button
+                                    type="submit"
+                                    className="w-full"
+                                    disabled={processing}
+                                >
+                                    Continue
+                                </Button>
+                            </Field>
 
                             <div className="text-center text-sm text-muted-foreground">
                                 <span>or you can </span>
@@ -122,7 +131,7 @@ export default function TwoFactorChallenge() {
                                     {authConfigContent.toggleText}
                                 </button>
                             </div>
-                        </>
+                        </FieldGroup>
                     )}
                 </Form>
             </div>
